@@ -1,0 +1,6 @@
+kind: wasmer.io/App.v0
+name: Exclusiveunlock
+owner: aldazunlock
+package: .
+scaling:
+  mode: single_concurrency
