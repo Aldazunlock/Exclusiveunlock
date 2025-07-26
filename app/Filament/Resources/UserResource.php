@@ -51,10 +51,7 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('email')->searchable(),
-                ToggleColumn::make('status')
-                    ->label('Activo')
-                    ->sortable()
-                    ->toggleable(),
+
             ])
             ->filters([
                 // filtros opcionales si quieres mostrar activos/inactivos

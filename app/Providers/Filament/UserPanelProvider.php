@@ -26,6 +26,10 @@ class UserPanelProvider extends PanelProvider
             ->id('user')
             ->path('user')
             ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->profile()
             ->colors([
                 'danger'   => Color::Rose,      // Rosa fuerte (errores)
                 'gray'     => Color::Zinc,      // Gris oscuro moderno
