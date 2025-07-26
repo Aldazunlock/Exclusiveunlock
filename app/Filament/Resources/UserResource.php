@@ -31,9 +31,7 @@ class UserResource extends Resource
                 TextInput::make('name')->required(),
                 TextInput::make('email')->email()->required(),
 
-                Toggle::make('status')
-                    ->label('Cuenta activa'),
-
+              
                 CheckboxList::make('panel_ids')
                     ->label('Acceso a paneles')
                     ->options([
