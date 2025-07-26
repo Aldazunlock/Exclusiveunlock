@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Providers\Filament;
+
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Pages;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
+use Filament\Widgets;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+class UserPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->id('user')
+            ->path('user')
+            ->login()
+            ->colors([
+                'danger'   => Color::Rose,      // Rosa fuerte (errores)
+                'gray'     => Color::Zinc,      // Gris oscuro moderno
+                'info'     => Color::Sky,       // Azul claro (informativo)
+                'primary'  => Color::Violet,    // Violeta (branding llamativo)
+                'success'  => Color::Emerald,   // Verde esmeralda (éxito)
+                'warning'  => Color::Amber,     // Ámbar cálido (advertencia)
+
+                // Colores adicionales
+                'accent'   => Color::Fuchsia,   // Fucsia vibrante
+                'muted'    => Color::Slate,     // Gris azulado suave
+                'secondary' => Color::Purple,    // Púrpura secundario
+                'neutral'  => Color::Stone,     // Tono piedra (neutral)
+                'light'    => Color::Lime,      // Lima brillante
+                'dark'     => Color::Gray,      // Gris tradicional
+            ])
+
+            ->plugin(\TomatoPHP\FilamentPos\FilamentPOSPlugin::make())
+            ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
+            ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
+            ->pages([
+                Pages\Dashboard::class,
+            ])
+            ->discoverWidgets(in: app_path('Filament/User/Widgets'), for: 'App\\Filament\\User\\Widgets')
+            ->widgets([
+                Widgets\AccountWidget::class,
+
+            ])
+            ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
+            ]);
+    }
+}
